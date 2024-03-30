@@ -1,4 +1,5 @@
 package com.assignment.demo.entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -10,6 +11,7 @@ public class Brand {
     private Long id;
     private String name;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "brands")
     private List<Product> products;
 
@@ -18,7 +20,6 @@ public class Brand {
 
     public Brand(String name, List<Product> products) {
         this.name = name;
-        this.products = products;
     }
 
     // Getters and setters

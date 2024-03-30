@@ -2,6 +2,7 @@ package com.assignment.demo.entity;
 
 import com.assignment.demo.entity.Brand;
 import com.assignment.demo.entity.Category;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -27,13 +28,16 @@ public class Product {
         this.price = price;
         this.quantity = quantity;
         this.imageUrl = imageUrl;
-        this.category = category;
-        this.brands = brands;
     }
 
     @ManyToOne
-    @JoinColumn(name = "category_id")
+    @JoinTable(
+            name = "product_category",
+           joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name="category_id")
+    )
     private Category category;
+
 
     @ManyToMany
     @JoinTable(
@@ -97,13 +101,8 @@ public class Product {
     }
 
     public void setCategory(Category category) {
-        if (category != null && category.getId() != null) {
-            this.category = category;
-        } else {
-            throw new IllegalArgumentException("Invalid category provided");
-        }
+       this.category=category;
     }
-
     public List<Brand> getBrands() {
         return brands;
     }
